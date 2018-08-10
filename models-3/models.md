@@ -2,6 +2,7 @@
 layout: page
 title: Models and Discussion
 permalink: /models/
+order: 6
 ---
 
 ### S109A Final Project Submission Group 22 (Project Website: http://mathuser0.github.io)

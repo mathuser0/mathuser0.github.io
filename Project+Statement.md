@@ -2,7 +2,7 @@
 layout: page
 title: Project Statement
 permalink: /project_statement
-
+order: 1
 ---
 
 

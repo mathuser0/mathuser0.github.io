@@ -2,8 +2,9 @@
 layout: page
 title: Data Collection
 permalink: /data_collection
-
+order: 2
 ---
+
 ### S109A Final Project Submission Group 22 (Project Website: http://mathuser0.github.io)
 
 Christopher Lee, chl2967@g.harvard.edu  
