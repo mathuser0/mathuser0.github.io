@@ -1,10 +1,15 @@
+---
+layout: page
+title: NLP
+permalink: /nlp
 
+---
 ### S109A Final Project Submission Group 22 (Project Website: https://mathuser0.github.io)
 
 Christopher Lee, chl2967@g.harvard.edu  
 Sriganesh Pera, srp124@g.harvard.edu  
 Bo Shang, bshang@g.harvard.edu
-    
+
 ****
 
 # Part 3. Natural Language Processing
@@ -294,7 +299,7 @@ df_text.head()
 
 ## Text Pre-Processing for Advanced Feature Extraction
 
-In order to extract meaningful high-level features, we want to clean the data so that our acquisition of data isn't hindered by slight differences in the text. For example, we want 'Dog' and 'dog' to be considered equal. Therefore, we pre-process the text data before applying advanced extraction methods as follows. 
+In order to extract meaningful high-level features, we want to clean the data so that our acquisition of data isn't hindered by slight differences in the text. For example, we want 'Dog' and 'dog' to be considered equal. Therefore, we pre-process the text data before applying advanced extraction methods as follows.
 
 ### Lower Case
 
@@ -367,7 +372,7 @@ Correcting mis-spelled words can have a significant impact on analysis performan
 df_text['text_spell_corrected']=df_text.text.apply(lambda x: str(TextBlob(x).correct()))
 ```
 
-### Stemming 
+### Stemming
 Removal of Suffices like 'ing', 'ly', 's', etc. We can use PorterStemmer() from the NLTK library.
 
 
@@ -1684,7 +1689,7 @@ df_tfidf.tail()
 
 
 ### Sentiment Analysis
-The textblob library is able to get the sentiment of a tweet text for us. There are two sentiment analysis values which are sentiment polarity and sentiment subjectivity. We use these NLP features in our models in Part 5. 
+The textblob library is able to get the sentiment of a tweet text for us. There are two sentiment analysis values which are sentiment polarity and sentiment subjectivity. We use these NLP features in our models in Part 5.
 
 
 ```python
@@ -1693,7 +1698,7 @@ df_text['sentiment_subjectivity']=df_text['text'].apply(lambda x: TextBlob(x).se
 ```
 
 ### Word Embeddings (Word2Vec)
-The Stanford GloVe model can be downloaded at http://nlp.stanford.edu/data/glove.twitter.27B.zip. 
+The Stanford GloVe model can be downloaded at http://nlp.stanford.edu/data/glove.twitter.27B.zip.
 
 
 ```python
@@ -1727,9 +1732,9 @@ model = KeyedVectors.load_word2vec_format(filename, binary=False)
 df_word2vec=df.text.apply(lambda x: sum([model[y] for y in x.split()])/len(x.split()))
 ```
 
-## This was as far as I was able to get with extracting advanced features. What struck me as surprising was how similar the libraries for extracting NLP features seemed to be to the regression/classification models we learned in class.  I have no doubt that, given more time, I would not fail at extracting all of the features described here in this section and figuring out a way to put them to use. 
+## This was as far as I was able to get with extracting advanced features. What struck me as surprising was how similar the libraries for extracting NLP features seemed to be to the regression/classification models we learned in class.  I have no doubt that, given more time, I would not fail at extracting all of the features described here in this section and figuring out a way to put them to use.
 
-## Please note that due to limited time and resources, our models only consider sentiment polarity and sentiment subjectivity as advanced text features NLP. I look forward to re-visiting NLP techniques in the very near future. 
+## Please note that due to limited time and resources, our models only consider sentiment polarity and sentiment subjectivity as advanced text features NLP. I look forward to re-visiting NLP techniques in the very near future.
 
 
 ```python
@@ -1774,4 +1779,3 @@ df_word2vec=df.text.apply(lambda x: sum([model[y] for y in x.split()])/len(x.spl
     Successfully built smart-open bz2file
     Installing collected packages: bz2file, jmespath, botocore, s3transfer, boto3, smart-open, gensim
     Successfully installed boto3-1.7.64 botocore-1.10.64 bz2file-0.98 gensim-3.5.0 jmespath-0.9.3 s3transfer-0.1.13 smart-open-1.6.0
-

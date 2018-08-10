@@ -1,10 +1,15 @@
+---
+layout: page
+title: EDA
+permalink: /eda
+---
 
 ### S109A Final Project Submission Group 22 (Project Website: http://mathuser0.github.io)
 
 Christopher Lee, chl2967@g.harvard.edu  
 Sriganesh Pera, srp124@g.harvard.edu  
 Bo Shang, bshang@g.harvard.edu
-    
+
 ****
 
 
@@ -39,44 +44,44 @@ from pandas.plotting import scatter_matrix
 def split_X_y(filename):
     # Read csv files in to pandas dataframe
     df=pd.read_csv(filename,index_col=0)
-    
+
     # return DataFrame object with labels dropped, and a Series object of labels
     return df.drop('bot_or_not',axis=1), df.bot_or_not
 
 
 
-# Plot histogram comparison of Bots vs Humans 
-def hist_bot_vs_hum(predictor, title=None, bins=25, normed=True, 
+# Plot histogram comparison of Bots vs Humans
+def hist_bot_vs_hum(predictor, title=None, bins=25, normed=True,
                     xmin=None,xmax=None, ymin=None,ymax=None):
     fig, ax = plt.subplots(figsize=(14,8))
     if title:
         ax.set_title(title, fontsize=24)
     else:
         ax.set_title("Normed Histogram of '"+predictor+"'\nHumans vs. Bots", fontsize=24)
-    
+
     if (xmin!=None) & (xmax!=None):
         ax.set_xlim(xmin,xmax)
-    
+
     if (ymin!=None) & (ymax!=None):
         ax.set_ylim(ymin,ymax)
-    
+
     if normed:
         ax.set_ylabel("Frequency", fontsize=18)
     else:
         ax.set_ylabel("Counts", fontsize = 18)
-        
-    ax.hist(hum_X_train[predictor], bins=bins, normed=normed, 
+
+    ax.hist(hum_X_train[predictor], bins=bins, normed=normed,
             label="Humans", color='r', alpha = 0.2)
-    
-    ax.hist(bot_X_train[predictor], bins=bins, normed=normed, 
+
+    ax.hist(bot_X_train[predictor], bins=bins, normed=normed,
             label="Bots", color='b', alpha = 0.2)
 
     ax.set_xlabel(predictor, fontsize=18)
-    
+
     ax.grid(True, '--',alpha=0.2)
     ax.legend(fontsize=18, loc='best')
-    
-    
+
+
 
 # Create four scatterplots based on col1 and col2
 # Top-Left       : All Humans Data
@@ -86,33 +91,33 @@ def hist_bot_vs_hum(predictor, title=None, bins=25, normed=True,
 def visual_bot_vs_hum(col1,col2, xmin=None, xmax=None,ymin=None,ymax=None):
     fig,ax=plt.subplots(2,2,figsize=(16,16))
     fax=ax.ravel()
-    
+
     fig.suptitle("'"+col1+"' vs. '"+col2+"'", fontsize=24)
     prop_sample=resample(hum_X_train, replace=False, n_samples=len(bot_X_train))
 
-       
+
     fax[0].scatter(bot_X_train[col1],bot_X_train[col2],
                marker='x', alpha=0.1, color='r', label='Bot')
     fax[0].set_title("Just Bots", fontsize=18)
-    
-    
+
+
     fax[1].scatter(hum_X_train[col1],hum_X_train[col2],
                marker='+', alpha=0.1, color='b', label="Human")
     fax[1].set_title("Humans Only", fontsize=18)
-    
-        
+
+
     fax[2].scatter(prop_sample[col1],prop_sample[col2],
                marker='+', alpha=0.1, color='b', label="Human")
     fax[2].set_title("Humans Only", fontsize=18)
 
-    
-    fax[3].scatter(hum_X_train[col1],hum_X_train[col2], 
+
+    fax[3].scatter(hum_X_train[col1],hum_X_train[col2],
                marker='+', alpha=0.1, color='b', label="Human")
-    fax[3].scatter(bot_X_train[col1],bot_X_train[col2], 
+    fax[3].scatter(bot_X_train[col1],bot_X_train[col2],
                marker='x', alpha=0.1, color='r', label='Bot')
     fax[3].set_title("All Bots and All Humans", fontsize=18)
-    
-    
+
+
     for i in range(4):
         fax[i].legend(fontsize=14,loc=(1,1))
         fax[i].grid(True, alpha=0.2, ls='--')
@@ -126,10 +131,10 @@ def visual_bot_vs_hum(col1,col2, xmin=None, xmax=None,ymin=None,ymax=None):
             fax[i].set_ylim(np.percentile(hum_X_train[col2], 5), np.percentile(hum_X_train[col2],95))        
         else:
             fax[i].set_ylim(min(0,ymin),ymax)
-        
-        
 
-    
+
+
+
 ```
 
 
@@ -157,7 +162,7 @@ len(columns)
 
 
 
-# <a id='scatter'> Scatter Matrix </a> 
+# <a id='scatter'> Scatter Matrix </a>
 
 
 ```python
@@ -168,11 +173,11 @@ scatter_matrix(hum_X_train, figsize=(30,30));
 ![png](output_9_0.png)
 
 
-# <a id='histograms'> Histograms </a> 
+# <a id='histograms'> Histograms </a>
 
 
 ```python
-hist_bot_vs_hum('user_listed_count', 
+hist_bot_vs_hum('user_listed_count',
                 bins=25,normed=True, xmin=0, xmax=250)
 ```
 
@@ -308,7 +313,7 @@ hist_bot_vs_hum(columns[12],normed=True)
 ![png](output_28_0.png)
 
 
-#### (Regarding the plot above) Bots seem to be better at keeping the number of stopwords at a minimum. This may be because bots are mindful of the 140 character space. 
+#### (Regarding the plot above) Bots seem to be better at keeping the number of stopwords at a minimum. This may be because bots are mindful of the 140 character space.
 
 ----
 
@@ -339,7 +344,7 @@ hist_bot_vs_hum(columns[15],normed=True, xmin=-1,xmax=15)
 ![png](output_32_0.png)
 
 
-#### (Regarding plot above) Bots show a trend of using at least one upper-case word in their tweets. Humans, on the other hand usually do not use any upper case words in their tweets. 
+#### (Regarding plot above) Bots show a trend of using at least one upper-case word in their tweets. Humans, on the other hand usually do not use any upper case words in their tweets.
 
 ----
 
@@ -352,7 +357,7 @@ hist_bot_vs_hum(columns[16],normed=True)
 ![png](output_34_0.png)
 
 
-#### (Regarding the plot above) This plot shows how similar the distributions of our sentiment predictors are for humans and bots. Figure 30 also shows a strikingly similar distribution. 
+#### (Regarding the plot above) This plot shows how similar the distributions of our sentiment predictors are for humans and bots. Figure 30 also shows a strikingly similar distribution.
 
 ----
 
@@ -371,11 +376,11 @@ hist_bot_vs_hum(columns[17],normed=True)
 ----
 
 
-# <a id='scatter'> Scatter Plots </a> 
+# <a id='scatter'> Scatter Plots </a>
 
 ## Sentiment Polarity vs. Retweet Count
 
-These plots are shown here in order to point out that humans have tweets of sentiment polarity equal or close to 1 that have been retweeted more than 60,000 times (upper right region of top-right plot), which may be considered having gone viral. Bots, on the other hand show the same region as being empty (consider same region in top-left plot). This may suggest that bots are unable or perhaps unwilling to generate a tweet of positive polarity, thus resulting in no viral tweets in the same region in the plot. 
+These plots are shown here in order to point out that humans have tweets of sentiment polarity equal or close to 1 that have been retweeted more than 60,000 times (upper right region of top-right plot), which may be considered having gone viral. Bots, on the other hand show the same region as being empty (consider same region in top-left plot). This may suggest that bots are unable or perhaps unwilling to generate a tweet of positive polarity, thus resulting in no viral tweets in the same region in the plot.
 
 
 ```python
@@ -394,7 +399,7 @@ visual_bot_vs_hum('sentiment_polarity','retweet_count', xmin=-1.1, xmax=1.1, ymi
 
 ## Stopwords vs Averge Number of Words
 
-The number of stopwords in relation to average word length seems to be more tightly distributed for bots than for humans. This may be indicative of how machines calculate their tweets. 
+The number of stopwords in relation to average word length seems to be more tightly distributed for bots than for humans. This may be indicative of how machines calculate their tweets.
 
 
 
@@ -444,7 +449,7 @@ visual_bot_vs_hum(columns[2],columns[3])
 ----
 ## User's lists count vs. Sentiment Polarity
 
-Notice the vertical bands shown in the top-left plot. There is an especially distinct vertical band at approximately 70 for user_listed_count. This band seems to be unique to bots as humans do not show much of a vertical pattern. It may be worthwhile looking into. 
+Notice the vertical bands shown in the top-left plot. There is an especially distinct vertical band at approximately 70 for user_listed_count. This band seems to be unique to bots as humans do not show much of a vertical pattern. It may be worthwhile looking into.
 
 
 ```python
@@ -459,7 +464,7 @@ visual_bot_vs_hum(columns[5],columns[16])
 
 ## User's Lists Count vs. Sentiment Subjectivity
 
-Notice the same vertical bands shown here again in the top-left plot. There is an especially distinct vertical band at approximately 70 for user_listed_count. This band seems to be unique to bots as humans do not show much of a vertical pattern. 
+Notice the same vertical bands shown here again in the top-left plot. There is an especially distinct vertical band at approximately 70 for user_listed_count. This band seems to be unique to bots as humans do not show much of a vertical pattern.
 
 
 ```python
@@ -468,4 +473,3 @@ visual_bot_vs_hum(columns[5],columns[17])
 
 
 ![png](output_52_0.png)
-

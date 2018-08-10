@@ -1,17 +1,22 @@
+---
+layout: page
+title: Data Pre-Processing
+permalink: /preprocessing
 
+---
 ### S109A Final Project Submission Group 22 (Project Website: https://mathuser0.github.io)
 
 Christopher Lee, chl2967@g.harvard.edu  
 Sriganesh Pera, srp124@g.harvard.edu  
 Bo Shang, bshang@g.harvard.edu
-    
+
 ****
 
 # Part 2. Data Pre-Processing
 
 ----
 
-The main goal of data processing is to prepare a dataset that our models can be trained on. In particular, our aim is to accomplish the following: 
+The main goal of data processing is to prepare a dataset that our models can be trained on. In particular, our aim is to accomplish the following:
 
 1. Rid the dataset of error entries  
 1. Simplify dataset where we can  
@@ -19,9 +24,9 @@ The main goal of data processing is to prepare a dataset that our models can be 
 
 Note that we will keep all raw data that is already in numerical format. In the next section, NLP, we will extract additional features using natural language processing techniques on the tweets' text data.
 
-Here, we extract the raw data features that are already in numerical format, identify error rows, and reduce the dataset to English tweets data only. Then, at the last step, we create a label column for our pre-processed features dataset. 
+Here, we extract the raw data features that are already in numerical format, identify error rows, and reduce the dataset to English tweets data only. Then, at the last step, we create a label column for our pre-processed features dataset.
 
- 
+
 
 <hr>
 
@@ -49,7 +54,7 @@ def to_Dictionary_List(df_source, nested_object, dict_keys):#, drop=False):
     print("Length of source dataset is     : ", len(df_source))
     dictionary_list=[]
     error_indices_list=[]
-        
+
     for i,item in enumerate(df_source[nested_object]):
         try:
             dictionary_list.append(dict(eval(item)))
@@ -59,47 +64,47 @@ def to_Dictionary_List(df_source, nested_object, dict_keys):#, drop=False):
 
     if len(error_indices_list)!=0:
         print("WAIT! Try again after dropping these indices from original dataframe:", error_indices_list)
-    
+
     return (dictionary_list, nested_object, dict_keys, error_indices_list)
 
 
 # Add result from function to_Dictionary_List as columns to destination dataframe
 def add_Nested_Columns(df_destination, tup):
     (dictionary_list, nested_object, dict_keys, error_indices_list) = tup
-    
+
     # Make sure no error rows exist
     if error_indices_list !=[]:
         print("Drop error rows first.")
         return
-    
+
     else:
         print("No error rows detected. Proceeding...")
-    
-    # Make sure that the destination dataframe has the same number of observations 
+
+    # Make sure that the destination dataframe has the same number of observations
     # as the number of 'user' objects in our list
-    
+
     if len(df_destination)!=len(dictionary_list):
         print("Number of rows don't match. Aborting...")
         return
     else:
         print("Everything looks good. Proceeding to add selected nested child objects to the destination dataframe...")
-    
+
     for j,key in enumerate(dict_keys):
         try:
             df_destination[nested_object+'_'+key]=[d[key] for d in dictionary_list]
         except:
             print('ERROR')
             break
-    
+
     print("Success. The destination dataframe had ", len(dict_keys)," columns added")
-    
+
 
 # Function to add metadata (nested values) from a source dataframe to a destination dataframe    
 def add_metadata(df_destination, df_source, nested_object, dict_keys):
     add_Nested_Columns(df_destination,to_Dictionary_List(df_source, nested_object, dict_keys))
 
-    
-# Select only the rows with a value of 'val' 
+
+# Select only the rows with a value of 'val'
 # for column 'col' in dataframe 'df'
 def select(val, col, df):
     df_result=df[df[col]==val]
@@ -198,7 +203,7 @@ df_labels = pd.read_csv("raw_labels.csv", index_col=0)
 
 ## Feature Engineering (non-NLP)
 
-The cell below shows the many predictors we can get from a Tweet object. We have commented out the predictors that we determined to be infeasible for this project. The columns names in color are the predictors of interest to us. 
+The cell below shows the many predictors we can get from a Tweet object. We have commented out the predictors that we determined to be infeasible for this project. The columns names in color are the predictors of interest to us.
 
 
 ```python
@@ -221,9 +226,9 @@ columns_from_tweets=['created_at',             # Time the tweet was created
 # Keys in Tweet object whose values are nested dictionaries
 nested_dictionary_columns=[
     'user',                    # Data on user who posted this Tweet
-#    'coordinates',            # Represents that geographic location of this Tweet 
+#    'coordinates',            # Represents that geographic location of this Tweet
 #    'place',                  # When present, indicates that the tweet is associated with a place
-#    'metadata',               # Contains 
+#    'metadata',               # Contains
 #    'retweeted_status',       # Contains Tweet object of original Tweet
 #    'entities',               # Entities which have been parsed out of the text of the Tweet
 #    'extended_entities'       # Contains an array 'media' metadata
@@ -313,7 +318,7 @@ extended_entities_object_keys=[
 
 ### Getting Root-Level Features from Tweet Objects
 
-Below are the root-level attributes of Tweet objects that we want to use as features. The first portion of our features dataset is gathered here at the root-level. 
+Below are the root-level attributes of Tweet objects that we want to use as features. The first portion of our features dataset is gathered here at the root-level.
 
 
 ```python
@@ -477,7 +482,7 @@ Here we are going to extract the features in the nested dictionaries of the `use
 
 
 ```python
-# Note that we are also interested in the following 
+# Note that we are also interested in the following
 # child objects that are nested in the 'user' column values
 user_object_keys
 ```
@@ -543,7 +548,7 @@ df_clean = df_features[columns_from_tweets]
 
 
 ```python
-# Let's try that again now. 
+# Let's try that again now.
 for item in nested_dictionary_columns:
     print("Adding "+item)
     add_metadata(df_clean,df_features,item, eval(item+"_object_keys"))
@@ -709,18 +714,18 @@ df_clean.columns
 
 
 
-> NOTE: The recently added features above have the prefix `user_`. That is because they are child objects nested in the `user` column. If we had chosen the `entities` column to extract nested child objects from, the prefix would have been `entities_`. 
+> NOTE: The recently added features above have the prefix `user_`. That is because they are child objects nested in the `user` column. If we had chosen the `entities` column to extract nested child objects from, the prefix would have been `entities_`.
 
 <hr>
 
-### English Data Only! 
+### English Data Only!
 
 Remember that we are using the `english` score from the Botometer API. Thus, we want only English tweets to comprise our dataset. In our current features data, there are two predictors that have language-related values: `lang` from the root-level, and `user_lang` that used to be a user-nested child object.
 
 
 ```python
-# Using our custom-defined function, select(), we select only the 
-# rows that have 'en' as their 'lang' attribute. 
+# Using our custom-defined function, select(), we select only the
+# rows that have 'en' as their 'lang' attribute.
 # Notice how the size of the original and reduced datasets are displayed in the output.
 
 df_clean=select('en','lang',df_clean)
@@ -755,9 +760,9 @@ which_are_unique(df_clean)
 
 
 ```python
-# Notice how the columns we used to select only 'en' values are shown to be single-valued. 
-# Good. That means it works. Again, using another custom-defined function, dropColumns(), 
-# we drop the unique valued columns. 
+# Notice how the columns we used to select only 'en' values are shown to be single-valued.
+# Good. That means it works. Again, using another custom-defined function, dropColumns(),
+# we drop the unique valued columns.
 dropColumns(df_clean, which_are_unique(df_clean))
 ```
 
@@ -766,7 +771,7 @@ dropColumns(df_clean, which_are_unique(df_clean))
 
 
 ```python
-# Now, we decided we don't want to deal with NaNs for this project. 
+# Now, we decided we don't want to deal with NaNs for this project.
 # We already have plans for getting plenty of data that aren't NaNs.
 # Our custom function, which_have_too_many_na(), shows us the columns whose majority of values are NaNs.
 which_have_too_many_na(df_clean)
@@ -922,7 +927,7 @@ df_clean.head(3)
 
 ```python
 # Since we haven't seen the custom function, how_many_na(), in use yet, let's do it here.
-# The column names in our dataset are listed on the left, 
+# The column names in our dataset are listed on the left,
 # and the number of NaN values in each columns is displayed on the right.
 how_many_na(df_clean)
 ```
@@ -1045,9 +1050,9 @@ how_many_na(df_clean)
 
 
 ```python
-# Hmm... They all have 0 NaNs... 
-# Just to show you that this wasn't true when we began this section, 
-# let's use it on our raw_features dataset for comparison. 
+# Hmm... They all have 0 NaNs...
+# Just to show you that this wasn't true when we began this section,
+# let's use it on our raw_features dataset for comparison.
 how_many_na(df_features)
 ```
 
@@ -1215,7 +1220,7 @@ how_many_na(df_features)
 
 # Label Values (Botometer Scores)
 
-In this last section of Data Pre-Processing, we merge the features data with the labels data. We do this by matching the Botometer scores (bot_score) and predicted class representations with each Tweet object (each row) using the author's screen name as the primary key. Notice that the Twitter account screen name is the value in the `user_screen_name` column in our features dataset, and it is the value in the `follower` column in our labels dataset. We merge `df_clean` with `df_labels` as follows. 
+In this last section of Data Pre-Processing, we merge the features data with the labels data. We do this by matching the Botometer scores (bot_score) and predicted class representations with each Tweet object (each row) using the author's screen name as the primary key. Notice that the Twitter account screen name is the value in the `user_screen_name` column in our features dataset, and it is the value in the `follower` column in our labels dataset. We merge `df_clean` with `df_labels` as follows.
 
 
 ```python
@@ -1294,8 +1299,8 @@ df_labels.tail()
 
 
 ```python
-# What we want is to match each tweet to the bot_or_not value of its author. 
-# Fortunately, each row in our features dataset has a value corresponding 
+# What we want is to match each tweet to the bot_or_not value of its author.
+# Fortunately, each row in our features dataset has a value corresponding
 # to the screen name of the author in the column named `user_screen_name`.
 
 df_complete = pd.merge(df_clean, df_labels, how='left', left_on='user_screen_name', right_on='follower')
@@ -1430,11 +1435,11 @@ df_complete.tail(3)
 
 
 
-> Something is wrong here. There shouldn't be 99730 rows. 
+> Something is wrong here. There shouldn't be 99730 rows.
 
 
 ```python
-# But wait... how did the index become 99730? 
+# But wait... how did the index become 99730?
 len(df_clean), len(df_complete)
 ```
 
@@ -1447,8 +1452,8 @@ len(df_clean), len(df_complete)
 
 
 ```python
-# With some thought, it becomes obvious that this has to do with duplicate entries... 
-# Looking back, we never handled duplicate values. 
+# With some thought, it becomes obvious that this has to do with duplicate entries...
+# Looking back, we never handled duplicate values.
 # So, let's get rid of all duplicates in the features as well as in the labels!
 df_clean.drop_duplicates(subset='id')
 ```
@@ -2987,7 +2992,7 @@ Looks like we got rid of two rows in our features data. Now lets drop duplicates
 
 
 ```python
-# For the labels, we use the 'follower' columns for dropping duplicates. 
+# For the labels, we use the 'follower' columns for dropping duplicates.
 df_labels.drop_duplicates(subset='follower',inplace=True)
 len(df_labels)
 ```
@@ -3024,7 +3029,7 @@ len(df_complete)
 
 
 ```python
-# Saving complete dataset to file. 
+# Saving complete dataset to file.
 # This dataset is "complete" in the sense that...
 df_complete.to_csv("complete.csv")
 ```
