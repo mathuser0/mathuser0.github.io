@@ -2,7 +2,7 @@
 layout: page
 title: 2. Data Pre-Processing
 permalink: /preprocessing
-order: 3
+path: 1
 ---
 ### S109A Final Project Submission Group 22 (Project Website: https://mathuser0.github.io)
 
