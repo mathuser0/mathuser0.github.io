@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Project Statement
+title: 0. Project Statement
 permalink: /project_statement
 order: 1
 ---

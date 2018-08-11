@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Data Pre-Processing
+title: 2. Data Pre-Processing
 permalink: /preprocessing
 order: 3
 ---
