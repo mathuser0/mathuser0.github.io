@@ -1,6 +1,6 @@
 ---
 layout: page
-title: 4. EDA
+title: EDA
 permalink: /eda
 order: 5
 ---

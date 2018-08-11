@@ -1,6 +1,6 @@
 ---
 layout: page
-title: 2. Data Pre-Processing
+title: Data Pre-Processing
 permalink: /preprocessing
 path: 1
 ---

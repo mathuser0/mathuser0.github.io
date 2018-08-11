@@ -1,8 +1,8 @@
 ---
 layout: page
-title: 0. Project Statement
+title: Project Statement
 permalink: /project_statement
-order: 1
+
 ---
 
 

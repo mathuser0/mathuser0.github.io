@@ -1,6 +1,6 @@
 ---
 layout: page
-title: 5. Models and Discussion
+title: Models and Discussion
 permalink: /models/
 order: 6
 ---

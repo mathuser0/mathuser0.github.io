@@ -1,6 +1,6 @@
 ---
 layout: page
-title: 3. NLP
+title: NLP
 permalink: /nlp
 order: 4
 ---

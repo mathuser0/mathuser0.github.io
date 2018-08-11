@@ -1,6 +1,6 @@
 ---
 layout: page
-title: 1. Data Collection
+title: Data Collection
 permalink: /data_collection
 order: 2
 ---
