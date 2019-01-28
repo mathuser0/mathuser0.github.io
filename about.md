@@ -10,6 +10,6 @@ S109A Final Project Submission
 
 Christopher Lee 
 
-chl2967@g.harvard.edu  
+e-mail: chl2967@g.harvard.edu  
 
 Project Website: https://mathuser0.github.io
