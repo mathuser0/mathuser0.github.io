@@ -6,8 +6,10 @@ order: 7
 ---
 
 
-S109A Final Project Submission Group 22 (Project Website: https://mathuser0.github.io)
+S109A Final Project Submission
 
-Christopher Lee, chl2967@g.harvard.edu  
-Sriganesh Pera, srp124@g.harvard.edu  
-Bo Shang, bshang@g.harvard.edu
+Christopher Lee 
+
+chl2967@g.harvard.edu  
+
+Project Website: https://mathuser0.github.io
